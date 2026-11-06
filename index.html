@@ -969,7 +969,9 @@ function wsArabicCaptchaExpired() {
   .cxm-card.c1{right:4%;top:8%}
   .cxm-card.c2{left:4%;bottom:8%}
 }
-@media (prefers-reduced-motion:reduce){.cxm-row,.cxm-stat,.cxm-card{opacity:1!important;transform:none!important}.cxm-card.float{animation:none}}
+html.cxm-js .banner-main-wrapper._2nd h1{opacity:0}
+html.cxm-js .banner-main-wrapper._2nd h1.cxm-ready{opacity:1}
+@media (prefers-reduced-motion:reduce){html.cxm-js .banner-main-wrapper._2nd h1{opacity:1}.cxm-row,.cxm-stat,.cxm-card{opacity:1!important;transform:none!important}.cxm-card.float{animation:none}}
 </style>
 
 <template id="cxm-tpl">
@@ -1000,7 +1002,7 @@ function wsArabicCaptchaExpired() {
     </div>
   </div>
   <div class="r">
-    <img id="cxm-ship" src="https://cdn.prod.website-files.com/698816463bcc15463561d94d/69d4dcc81af49734bb832cd6_Cyber%20Sphere.avif" alt="كرة سيبرانية متوهجة تمثل منصة Deep I" loading="lazy">
+    <img id="cxm-ship" src="https://cdn.prod.website-files.com/698816463bcc15463561d94d/6989c376cc9dfd12cdc8a7a1_Rectangle%2034625728.avif" alt="" loading="lazy">
     <div class="cxm-card c1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.3 7.2 15.6 7M7.3 8.2l3.6 7.6M16.9 9.3l-3.6 6.6"/></svg></span><div><small>PhishGuard</small><b>محاكاة تصيّد واقعية<br>وقياس جاهزية الموظفين.</b></div></div>
     <div class="cxm-card c2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l4-3 4 3 4-3 4 3v12z"/><rect x="9.5" y="13" width="5" height="5" rx="1"/><path d="M10.5 13v-1.5a1.5 1.5 0 0 1 3 0V13"/></svg></span><div><small>mPass</small><b>مصادقة متعددة العوامل<br>ودخول موحّد آمن.</b></div></div>
   </div>
@@ -1131,15 +1133,21 @@ function wsArabicCaptchaExpired() {
     var E='cubic-bezier(.22,.7,.2,1)';
     var nav=[].slice.call(document.querySelectorAll('.navbar .nav-link, .navbar .dropdown, .navbar .w-dropdown, .navbar .flip-button, .navbar .brand')).slice(0,10);
     nav.forEach(function(el,i){el.animate([{opacity:0,transform:'translateY(-10px)'},{opacity:1,transform:'none'}],{duration:700,delay:150+i*60,easing:E,fill:'backwards'})});
+    document.documentElement.classList.add('cxm-js');
+    setTimeout(function(){var h=document.querySelector('.banner-main-wrapper._2nd h1');if(h)h.classList.add('cxm-ready')},4000);
+    function heroWords(){
     var h1=document.querySelector('.banner-main-wrapper._2nd h1');
-    if(h1){
+    if(h1&&!h1.querySelector('.cxm-w')){
       var words=split(h1);
       words.forEach(function(w,i){
         var m=document.createElement('span');m.style.cssText='display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .04em .12em';
         w.parentNode.insertBefore(m,w);m.appendChild(w);
-        w.animate([{transform:'translateY(105%)'},{transform:'none'}],{duration:1000,delay:350+i*120,easing:E,fill:'backwards'});
+        w.animate([{transform:'translateY(105%)'},{transform:'none'}],{duration:1000,delay:150+i*120,easing:E,fill:'backwards'});
       });
+      h1.classList.add('cxm-ready');
     }
+    }
+    if(document.readyState==='complete') setTimeout(heroWords,200); else addEventListener('load',function(){setTimeout(heroWords,200)});
     var btn=document.querySelector('.banner-main-wrapper._2nd .flip-button');
     if(btn) btn.animate([{opacity:0,transform:'scale(.985) translateY(8px)'},{opacity:1,transform:'none'}],{duration:800,delay:900,easing:E,fill:'backwards'});
   }
