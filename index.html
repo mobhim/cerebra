@@ -952,37 +952,33 @@ function wsArabicCaptchaExpired() {
 .cxm-odo .reel::before,.cxm-odo .reel::after{content:"";position:absolute;left:0;right:0;height:18%;z-index:1;pointer-events:none}
 
 
-/* ---------- platform visuals (replace the lottie cards) ---------- */
-.teaser-img-3.cxp-host{background:none!important}
-.cxp{position:absolute;inset:0;border-radius:24px;overflow:hidden;isolation:isolate;direction:rtl;color:#fff;
-  background:radial-gradient(70% 55% at 50% 30%,var(--g1) 0%,transparent 70%),radial-gradient(60% 50% at 100% 100%,var(--g2) 0%,transparent 70%),#0c0d22;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 40px 80px -40px rgba(0,0,0,.7)}
-.cxp[data-p="0"]{--g1:rgba(111,90,220,.55);--g2:rgba(51,195,240,.22);--ac:#a898ff}
-.cxp[data-p="1"]{--g1:rgba(60,110,255,.5);--g2:rgba(150,90,255,.25);--ac:#8fb0ff}
-.cxp[data-p="2"]{--g1:rgba(30,170,230,.45);--g2:rgba(111,90,220,.3);--ac:#7fe3ff}
-.cxp .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;-webkit-mask-image:radial-gradient(ellipse at 50% 32%,#000 10%,transparent 68%);mask-image:radial-gradient(ellipse at 50% 32%,#000 10%,transparent 68%)}
-.cxp .core{position:absolute;left:50%;top:31%;width:46%;aspect-ratio:1;transform:translate(-50%,-50%)}
-.cxp .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.12)}
-.cxp .ring.r2{inset:16%;border-style:dashed;border-color:rgba(255,255,255,.18);animation:cxpSpin 26s linear infinite}
-.cxp .ring.r3{inset:-18%;border-color:rgba(255,255,255,.06)}
-.cxp .ring.r1{animation:cxpSpin 40s linear infinite reverse}
-.cxp .ring.r1::before,.cxp .ring.r2::before{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px var(--ac);top:-3.5px;left:50%;margin-left:-3.5px}
-.cxp .sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg,color-mix(in srgb,var(--ac) 40%,transparent) 40deg,transparent 80deg);-webkit-mask:radial-gradient(circle,transparent 30%,#000 31%);mask:radial-gradient(circle,transparent 30%,#000 31%);animation:cxpSpin 4.5s linear infinite;opacity:.7}
-.cxp .badge{position:absolute;inset:30%;border-radius:22px;display:grid;place-items:center;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 0 40px -6px var(--ac);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.cxp .badge img{width:72%;height:auto;max-height:60%;object-fit:contain}
-.cxp .list{position:absolute;left:7%;right:7%;bottom:7%;display:flex;flex-direction:column;gap:8px}
-.cxp .row{position:relative;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.035);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);font-size:14px;color:rgba(255,255,255,.62);overflow:hidden;transition:color .5s,background .5s,box-shadow .5s,transform .5s cubic-bezier(.16,1,.3,1)}
-.cxp .row i{flex:none;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .5s,box-shadow .5s}
-.cxp .row::after{content:"";position:absolute;inset:auto auto 0 0;height:2px;width:0;background:linear-gradient(90deg,var(--ac),transparent)}
-.cxp .row.on{color:#fff;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ac) 45%,transparent),0 10px 30px -15px var(--ac);transform:translateX(-4px)}
-.cxp .row.on i{background:var(--ac);box-shadow:0 0 10px var(--ac)}
-.cxp .row.on::after{animation:cxpBar 1.9s linear forwards}
-.cxp .row em{margin-inline-start:auto;font-style:normal;font-size:11px;opacity:0;color:var(--ac);transition:opacity .4s}
-.cxp .row.on em{opacity:1}
-.cxp.compact .row{padding:8px 12px;font-size:13px}
-@keyframes cxpSpin{to{transform:rotate(360deg)}}
-@keyframes cxpBar{to{width:100%}}
-@media (prefers-reduced-motion:reduce){.cxp .ring,.cxp .sweep{animation:none}.cxp .row.on::after{animation:none;width:100%}}
+
+/* ---------- glass dropdown windows ---------- */
+.service-dropdown-list .dropdown-items-wrapper,.service-dropdown-list .dropdown-links-wrapper{background:rgba(14,18,52,.32)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.12),0 30px 60px -30px rgba(0,0,0,.6)!important;border:1px solid rgba(255,255,255,.1)!important}
+.service-dropdown-list .link-box-wrapper{background-color:rgba(255,255,255,.035)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:background-color .3s,box-shadow .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.service-dropdown-list .link-box-wrapper:hover{background-color:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);transform:translateY(-3px)}
+
+/* ---------- Black Hat photos back in the hero ---------- */
+.cxh-reel{position:absolute;top:0;bottom:0;z-index:2;width:min(210px,15vw);overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);opacity:.75}
+.cxh-reel.l{left:4vw}.cxh-reel.r{right:4vw}
+.cxh-reel .track{display:flex;flex-direction:column;gap:16px;animation:cxhUp 38s linear infinite}
+.cxh-reel.r .track{animation-direction:reverse;animation-duration:44s}
+.cxh-reel img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+@keyframes cxhUp{to{transform:translateY(-50%)}}
+@media (max-width:900px){.cxh-reel{width:22vw;opacity:.35}.cxh-reel.l{left:-4vw}.cxh-reel.r{right:-4vw}}
+
+/* ---------- platforms: hero video behind the section, lottie art without its box ---------- */
+.teaser-section.cxs{position:relative;isolation:isolate}
+.teaser-section.cxs > :not(.cxs-bg){position:relative;z-index:1}
+.cxs-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.cxs-bg .stick{position:sticky;top:0;height:100vh;overflow:hidden}
+.cxs-bg video{width:100%;height:100%;object-fit:cover;display:block}
+.cxs-bg .stick::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,12,28,.85) 0%,rgba(11,12,28,.45) 30%,rgba(11,12,28,.45) 70%,rgba(11,12,28,.85) 100%)}
+.teaser-section .teaser-img-3{-webkit-mask-image:radial-gradient(ellipse 72% 66% at 50% 42%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 72% 66% at 50% 42%,#000 50%,transparent 100%)}
+.teaser-section .teaser-img-3 > svg{animation:cxsFloat 7s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(130,110,255,.35)) saturate(1.12)}
+.teaser-section .p-teaser-img-wrap-3{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .2s linear}
+@keyframes cxsFloat{50%{transform:translateY(-10px)}}
+@media (prefers-reduced-motion:reduce){.cxh-reel .track,.teaser-section .teaser-img-3 > svg{animation:none}}
 
 @media (max-width:600px){.cxh-in{gap:26px}.cxh-pill{font-size:12px}}
 @media (prefers-reduced-motion:reduce){.cxh .cxm-in{opacity:1}.cxm-odo .col{transition:none!important}}
@@ -991,6 +987,7 @@ function wsArabicCaptchaExpired() {
 <template id="cxh-tpl">
 <section class="cxh" aria-label="سيريبرا — الأمان بالابتكار">
   <div class="cxh-bg" aria-hidden="true"><video muted loop playsinline autoplay preload="auto"></video></div>
+  <div class="cxh-reel r" aria-hidden="true"><div class="track"></div></div><div class="cxh-reel l" aria-hidden="true"><div class="track"></div></div>
   <div class="cxh-in">
     <a class="cxh-pill cxm-lg cxm-in" href="cybersecurity-awareness-event.html"><b>2026</b>تعرف علينا في بلاك هات الشرق الأوسط وأفريقيا ↗</a>
     <p class="cxh-tag cxm-in">الأمن السيبراني صُنع في السعودية</p>
@@ -1054,6 +1051,39 @@ function wsArabicCaptchaExpired() {
     showButton();
   }
 
+
+  /* ---------- Black Hat photos (the site's own) as two vertical reels in the hero ---------- */
+  (function(){
+    var srcs=[];$$('.banner-cover .marquee-image').forEach(function(i){var s=i.getAttribute('src');if(s&&srcs.indexOf(s)<0)srcs.push(s)});
+    if(!srcs.length) return;
+    var half=Math.ceil(srcs.length/2), cols=[srcs.slice(0,half),srcs.slice(half).concat(srcs.slice(0,1))];
+    $$('.cxh-reel .track').forEach(function(t,i){var list=cols[i%2],h='';list.concat(list).forEach(function(s){h+='<img src="'+s+'" alt="" loading="lazy" decoding="async">'});t.innerHTML=h});
+  })();
+
+  /* ---------- platforms section: same video as the hero, lottie art floats and tilts ---------- */
+  (function(){
+    var sec=$('.teaser-section'); if(!sec) return;
+    sec.classList.add('cxs');
+    var bg=document.createElement('div');bg.className='cxs-bg';bg.setAttribute('aria-hidden','true');
+    bg.innerHTML='<div class="stick"><video muted loop playsinline preload="none"></video></div>';
+    sec.insertBefore(bg,sec.firstChild);
+    var v=$('video',bg), SRC='https://stream.mux.com/kimF2ha9zLrX64H00UgLGPflCzNtl1T0215MlAmeOztv8.m3u8', started=false;
+    function start(){
+      if(started) return; started=true;
+      if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=SRC;if(!reduced)v.play().catch(function(){})}
+      else{var go=function(){if(window.Hls&&Hls.isSupported()){var h=new Hls();h.loadSource(SRC);h.attachMedia(v);if(!reduced)h.on(Hls.Events.MANIFEST_PARSED,function(){v.play().catch(function(){})})}};
+        if(window.Hls) go(); else {var t=setInterval(function(){if(window.Hls){clearInterval(t);go()}},200);setTimeout(function(){clearInterval(t)},15000)}}
+    }
+    if('IntersectionObserver' in window) new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){start();if(!reduced)v.play().catch(function(){})}else if(started)v.pause()})},{rootMargin:'200px'}).observe(sec);
+    else start();
+    var wrap=$('.p-teaser-img-wrap-3',sec);
+    if(wrap&&!reduced){var mx=0,my=0,tx=0,ty=0,on=false;
+      sec.addEventListener('pointermove',function(e){var r=wrap.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5)*2;ty=((e.clientY-r.top)/r.height-.5)*2;on=true},{passive:true});
+      sec.addEventListener('pointerleave',function(){tx=0;ty=0});
+      (function loop(){mx+=(Math.max(-1,Math.min(1,tx))-mx)*.08;my+=(Math.max(-1,Math.min(1,ty))-my)*.08;wrap.style.setProperty('--ry',(mx*6).toFixed(2)+'deg');wrap.style.setProperty('--rx',(-my*5).toFixed(2)+'deg');requestAnimationFrame(loop)})();
+    }
+  })();
+
   /* ---------- word split (Arabic-safe) ---------- */
   function split(el){
     var out=[];
@@ -1081,32 +1111,6 @@ function wsArabicCaptchaExpired() {
   function onScroll(){var vh=innerHeight;groups.forEach(function(g){paint(g,reduced?1:clamp((.92-g.el.getBoundingClientRect().top/vh)/.42))})}
   addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
 
-
-  /* ---------- 4. platform visuals: tidy animated cards from each platform's own logo and modules ---------- */
-  (function(){
-    var C='https://cdn.prod.website-files.com/698816463bcc15463561d94d/';
-    var P=[
-      {logo:C+'69895fd98bef78c2794de7bb_Mask%20grou4p.avif',items:['المصادقة متعددة العوامل','تسجيل الدخول الموحد','إعادة تعيين كلمة المرور للخدمة الذاتية']},
-      {logo:C+'6a572e937f08f9f5fbd3ee1c_Deep-i%20Logo%20%5BWhite%5D.svg',items:['PhishGuard','InfoShield','BeShield']},
-      {logo:C+'6a0c00d67fd141f42ebf32ae_linQ2%20logo.png',items:['الرسائل النصية القصيرة','إشعارات الدفع','البريد الإلكتروني','واتساب','الصوت']}
-    ];
-    var hosts=$$('.teaser-section .teaser-img-3');
-    hosts.forEach(function(h){
-      var k=h.classList.contains('_3')?2:h.classList.contains('_2')?1:h.classList.contains('_1')?0:null;
-      if(k===null){var wrap=h.closest('.teaser-copy-wrap-2'),all=$$('.teaser-section .teaser-copy-wrap-2');k=Math.max(0,all.indexOf(wrap))%3}
-      var p=P[k];
-      h.removeAttribute('data-animation-type');h.removeAttribute('data-src');h.innerHTML='';h.classList.add('cxp-host');
-      if(getComputedStyle(h).position==='static')h.style.position='relative';
-      var card=document.createElement('div');card.className='cxp'+(p.items.length>3?' compact':'');card.setAttribute('data-p',k);card.setAttribute('aria-hidden','true');
-      card.innerHTML='<div class="grid"></div><div class="core"><div class="ring r3"></div><div class="ring r1"></div><div class="sweep"></div><div class="ring r2"></div><div class="badge"><img src="'+p.logo+'" alt=""></div></div>'+
-        '<div class="list">'+p.items.map(function(t){return '<div class="row"><i></i><span>'+t+'</span><em>●</em></div>'}).join('')+'</div>';
-      h.appendChild(card);
-      var rows=$$('.row',card),i=0;
-      if(reduced){rows[0].classList.add('on');return}
-      function tick(){rows.forEach(function(r,j){r.classList.toggle('on',j===i)});i=(i+1)%rows.length}
-      tick();setInterval(tick,2000);
-    });
-  })();
 
   /* ---------- 3. numbers roll like a track (odometer) ---------- */
   function visual(raw){var last=raw.slice(-1);return /[+×x]/.test(last)?last+raw.slice(0,-1):raw}   // keep the site's RTL look: "10B+" shows as "+10B", "99%" stays
