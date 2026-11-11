@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>فحص جودة موقع سيريبرا</title>
+<style>
+:root{--bg:#0f1320;--panel:#171c2d;--line:rgba(255,255,255,.1);--text:#e7eaf6;--mute:#a9b3c6;--ok:#4fd6a0;--warn:#f2c14e;--bad:#ff8a78;--cyan:#33c3f0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 "IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+h1{margin:0 0 6px;font-size:28px;font-weight:600}
+p.lead{margin:0 0 24px;color:var(--mute);max-width:70ch}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px}
+button{font:inherit;cursor:pointer;border:0;border-radius:999px;padding:11px 26px;background:#fff;color:#14162e;font-weight:500}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+#status{color:var(--mute)}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:28px}
+.sum div{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.sum b{display:block;font-size:30px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}
+.sum span{color:var(--mute);font-size:13.5px}
+.verdict{border-radius:16px;padding:18px 20px;margin-bottom:28px;border:1px solid var(--line);background:var(--panel);font-size:16px}
+.verdict.ok{border-color:var(--ok)}.verdict.warn{border-color:var(--warn)}.verdict.bad{border-color:var(--bad)}
+h2{font-size:18px;font-weight:600;margin:32px 0 12px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:16px;overflow:hidden}
+th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
+th{font-weight:500;color:var(--mute);font-size:13px;white-space:nowrap}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl{overflow-x:auto;border-radius:16px;border:1px solid var(--line)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:6px}
+.ok .dot,.dot.ok{background:var(--ok)}.warn .dot,.dot.warn{background:var(--warn)}.bad .dot,.dot.bad{background:var(--bad)}
+td.ok{color:var(--ok)}td.warn{color:var(--warn)}td.bad{color:var(--bad)}
+details{margin-top:4px}summary{cursor:pointer;color:var(--cyan)}
+ul.iss{margin:8px 0 0;padding-inline-start:18px;color:var(--mute);font-size:13.5px}
+ul.iss li{margin-bottom:4px;overflow-wrap:anywhere}
+code{direction:ltr;unicode-bidi:isolate;font:13px/1.5 Consolas,monospace;color:#cfd6ea}
+.rules li{margin-bottom:6px;color:var(--mute)}.rules b{color:var(--text);font-weight:500}
+iframe{position:fixed;left:-99999px;top:0;border:0;visibility:hidden}
+</style>
+</head>
+<body>
+<main>
+  <h1>فحص جودة موقع سيريبرا</h1>
+  <p class="lead">يفتح كل صفحة في الموقع بمقاس الديسكتوب ومقاس الجوال، ويقيس معايير موضوعية يُحكم بها على أي موقع مؤسسي: سلامة العرض، وضوح النص، توحيد اللغة والهوية، والأساسيات التقنية. النتيجة حكم على كل صفحة وعلى الموقع كاملًا.</p>
+  <div class="bar"><button id="run">ابدأ الفحص</button><span id="status" role="status">لم يبدأ الفحص بعد.</span></div>
+  <div id="verdict"></div>
+  <div class="sum" id="sum"></div>
+  <div id="out"></div>
+  <h2>ما الذي يُفحص</h2>
+  <ul class="rules">
+    <li><b>سلامة العرض:</b> لا تمرير أفقي، لا صور مكسورة، طبقة التطوير محمّلة.</li>
+    <li><b>وضوح النص:</b> تباين النص مع خلفيته (4.5:1 للنص العادي، 3:1 للكبير)، ولا نص أصغر من 12px.</li>
+    <li><b>توحيد اللغة:</b> لا عناوين أو أزرار إنجليزية في صفحة عربية (أسماء المنتجات والمعايير مستثناة)، وعنوان الصفحة عربي.</li>
+    <li><b>توحيد الهوية:</b> خط واحد للنصوص، ومقاس ووزن العناوين الرئيسية مطابق للصفحة الرئيسية.</li>
+    <li><b>الأساسيات:</b> عنوان رئيسي واحد، وصف للصفحة، لغة الصفحة عربية، لا روابط داخلية مكسورة أو فارغة.</li>
+  </ul>
+</main>
+<script>
+(function(){
+  var PAGES=['index.html','about-us.html','clients.html','partners.html','mpass.html','mfa.html','sso.html','sspr.html','deep-i.html','grc.html','aware.html','phish.html','linq2.html','sms.html','email-module.html','whatsapp-module.html','voice-module.html','push-notifications-module.html','cybersecurity-awareness-event.html','blog.html','our-news.html','knowledge-base.html','book-a-demo.html','privacy-policy.html','mpass-privacy-policy.html','careers.html','support.html'];
+  var VIEWS=[['desktop',1366,860],['mobile',390,844]];
+  /* product names, standards and addresses are not "English left in an Arabic page" */
+  var WORD=/^(m ?pass|linq ?2|deep|-?i|cerebra|info ?shield|phish ?guard|be ?shield|gartner|peer|insights\.?|saudi-?tech|black|hat|mea|sms|mfa|sso|sspr|grc|iam|otp|api|ai|ar|en|email|whatsapp|voice|push|notifications?|it|symposium\S*|xpo|security|innovation|active|directory|·|nca|sama|ecc|pci-?dss|gdpr|hipaa|iso|fido2?|saml|oauth|ldap|[\d.,:+%&|/()-]+|[a-z0-9._%+-]+@[a-z0-9.-]+|https?:\S*|www\.\S*)$/i;
+  var BRAND={test:function(t){return t.split(/\s+/).every(function(w){return WORD.test(w)})}};
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var runBtn=$('#run'), statusEl=$('#status'), out=$('#out'), sumEl=$('#sum'), verdictEl=$('#verdict');
+  var known={}, ref=null;
+
+  function rgb(s){var m=(s||'').match(/[\d.]+/g);if(!m)return null;return {r:+m[0],g:+m[1],b:+m[2],a:m.length>3?+m[3]:1}}
+  function lum(c){var f=function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)};return .2126*f(c.r)+.7152*f(c.g)+.0722*f(c.b)}
+  function ratio(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+  function over(top,under){var a=top.a;return {r:top.r*a+under.r*(1-a),g:top.g*a+under.g*(1-a),b:top.b*a+under.b*(1-a),a:1}}
+  /* background actually behind an element; null when a picture, gradient or video is involved (cannot be judged from CSS) */
+  function backdrop(el,win){
+    var stack=[];
+    for(var e=el;e&&e.nodeType===1;e=e.parentElement){
+      var cs=win.getComputedStyle(e);
+      if(cs.backgroundImage&&cs.backgroundImage!=='none') return null;
+      var c=rgb(cs.backgroundColor); if(c&&c.a>0){stack.push(c); if(c.a>=.98) break}
+      if(parseFloat(cs.opacity)<.95) return null;
+    }
+    var base={r:255,g:255,b:255,a:1};      /* a page that sets no colour of its own is white */
+    for(var i=stack.length-1;i>=0;i--) base=over(stack[i],base);
+    return base;
+  }
+  function visible(el,win){if(!el.offsetParent&&win.getComputedStyle(el).position!=='fixed')return false;var r=el.getBoundingClientRect();return r.width>1&&r.height>1}
+  function ownText(el){var t='';for(var n=el.firstChild;n;n=n.nextSibling)if(n.nodeType===3)t+=n.textContent;return t.replace(/\s+/g,' ').trim()}
+
+  function audit(win,doc,page,view){
+    var I=[], W=[];   /* issues (fail) and warnings */
+    var de=doc.documentElement, wide=view==='desktop';
+    var std=!!doc.querySelector('.main-wrapper');
+    if(std&&de.getAttribute('data-cx')!=='1') I.push('طبقة التطوير (cx.js) لم تعمل في هذه الصفحة');
+    if(!std&&wide) W.push('صفحة بقالب خارجي مختلف عن بقية الموقع (غير موحّدة مع الهوية)');
+    if(de.scrollWidth>de.clientWidth+1) I.push('تمرير أفقي: المحتوى أعرض من الشاشة بـ '+(de.scrollWidth-de.clientWidth)+'px');
+
+    var texts=[].slice.call(doc.querySelectorAll('h1,h2,h3,h4,h5,p,a,button,li,span,div,label,td,th')).filter(function(e){return ownText(e).length>1&&visible(e,win)});
+    var low=[], tiny=0, fonts={}, latin={};
+    texts.forEach(function(e){
+      var cs=win.getComputedStyle(e), t=ownText(e), fs=parseFloat(cs.fontSize);
+      var fam=cs.fontFamily.split(',')[0].replace(/["']/g,'').trim(); fonts[fam]=(fonts[fam]||0)+1;
+      if(fs<12) tiny++;
+      if(low.length<60){
+        var fg=rgb(cs.color), bg=backdrop(e,win);
+        if(fg&&bg&&fg.a>.5&&cs.webkitTextFillColor!=='rgba(0, 0, 0, 0)'){
+          var big=fs>=24||(fs>=18.66&&parseInt(cs.fontWeight,10)>=600), r=ratio(over(fg,bg),bg);
+          if(r<(big?3:4.5)) low.push(t.slice(0,40)+' ('+r.toFixed(1)+':1)');
+        }
+      }
+      /* headings and buttons of any length, plus any other run of English that is a sentence rather than a name */
+      if(/^(H[1-5]|A|BUTTON)$/.test(e.tagName)||/button-text|title|heading/.test(e.className)||(t.length>=25&&(t.match(/[A-Za-z]{3,}/g)||[]).length>=3)){
+        if(/^[\x20-\x7E]+$/.test(t)&&/[A-Za-z]{3,}/.test(t)&&!BRAND.test(t)) latin[t.slice(0,48)]=1;
+      }
+    });
+    if(!std) low=[];   /* external templates load their own styling; their colours cannot be judged reliably from here */
+    [].slice.call(doc.querySelectorAll('input[placeholder],textarea[placeholder]')).forEach(function(i){
+      var ph=i.getAttribute('placeholder').trim();
+      if(visible(i,win)&&/^[\x20-\x7E]+$/.test(ph)&&/[A-Za-z]{3,}/.test(ph)&&!/@/.test(ph)&&!BRAND.test(ph)) latin['حقل: '+ph.slice(0,40)]=1;
+    });
+    if(low.length) (low.length>3?I:W).push('تباين ضعيف في '+low.length+' نص: '+low.slice(0,4).join('، '));
+    if(tiny>0) W.push(tiny+' نص أصغر من 12px');
+    var lk=Object.keys(latin);
+    if(std&&lk.length) (lk.length>2?I:W).push('نص إنجليزي في صفحة عربية ('+lk.length+'): '+lk.slice(0,5).join(' · '));
+
+    if(wide){
+      var title=(doc.title||'').trim();
+      if(!title) I.push('لا يوجد عنوان للصفحة');
+      else if(std&&!/[ء-ي]/.test(title)) I.push('عنوان الصفحة ليس عربيًا: «'+title+'»');
+      if(std&&(de.lang||'').slice(0,2)!=='ar') I.push('لغة الصفحة ليست ar');
+      var md=doc.querySelector('meta[name="description"]'); if(!md||!(md.content||'').trim()) W.push('لا يوجد وصف للصفحة (meta description)');
+      var h1=[].slice.call(doc.querySelectorAll('h1')).filter(function(e){return visible(e,win)}).length;
+      if(h1!==1) (h1===0?I:W).push('عدد العناوين الرئيسية الظاهرة (h1) = '+h1+'، والصحيح 1');
+      var broken=[].slice.call(doc.images).filter(function(i){return i.complete&&i.naturalWidth===0&&i.getAttribute('src')&&visible(i,win)});
+      if(broken.length) I.push(broken.length+' صورة مكسورة: '+broken.slice(0,2).map(function(i){return i.getAttribute('src').split('/').pop().slice(0,40)}).join('، '));
+      var dead={}, empty=0;
+      [].slice.call(doc.querySelectorAll('a')).forEach(function(a){
+        var h=a.getAttribute('href'); if(!visible(a,win)) return;
+        if(h===null||h===''||h==='#'){if(a.getAttribute('role')!=='button')empty++;return}   /* accordion toggles are buttons */
+        var m=h.match(/^([a-z0-9-]+\.html)(#.*)?$/i); if(m&&known[m[1]]===false) dead[m[1]]=1;
+      });
+      var dk=Object.keys(dead); if(dk.length) I.push('روابط داخلية لصفحات غير موجودة: '+dk.join('، '));
+      if(empty>0) W.push(empty+' رابط بلا وجهة (href فارغ أو #)');
+      var fk=Object.keys(fonts).sort(function(a,b){return fonts[b]-fonts[a]});
+      var total=fk.reduce(function(s,k){return s+fonts[k]},0), odd=fk.filter(function(k){return !/IBM Plex Sans Arabic/i.test(k)&&fonts[k]/total>.08});
+      if(std&&odd.length) W.push('خط غير خط الهوية مستخدم بكثرة: '+odd.join('، '));
+      var h2=doc.querySelector('h2.section-title');
+      if(std&&h2){var c2=win.getComputedStyle(h2), sig=c2.fontFamily.split(',')[0]+'|'+c2.fontWeight;
+        if(page==='index.html') ref=sig; else if(ref&&sig!==ref&&!h2.closest('.cxn')) W.push('عنوان القسم يختلف عن الرئيسية في الخط أو الوزن');}
+    }
+    return {issues:I,warns:W};
+  }
+
+  function load(frame,url,w,h){
+    return new Promise(function(res){
+      frame.style.width=w+'px';frame.style.height=h+'px';
+      var done=false, fin=function(){if(done)return;done=true;setTimeout(res,1400)};
+      frame.onload=fin; setTimeout(fin,15000); frame.src=url+'?qa='+Date.now();
+    });
+  }
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function cls(i,w){return i?'bad':w?'warn':'ok'}
+
+  async function run(){
+    runBtn.disabled=true; out.innerHTML=''; sumEl.innerHTML=''; verdictEl.innerHTML=''; ref=null;
+    statusEl.textContent='التحقق من وجود الصفحات…';
+    await Promise.all(PAGES.map(function(p){return fetch(p,{method:'HEAD',cache:'no-store'}).then(function(r){known[p]=r.ok},function(){known[p]=false})}));
+    var frame=document.createElement('iframe');document.body.appendChild(frame);
+    var rows=[], n=0, total=PAGES.length*VIEWS.length;
+    for(var i=0;i<PAGES.length;i++){
+      var p=PAGES[i], row={page:p,exists:known[p],views:{}};
+      if(known[p]) for(var v=0;v<VIEWS.length;v++){
+        statusEl.textContent='فحص '+p+' ('+(VIEWS[v][0]==='desktop'?'ديسكتوب':'جوال')+') — '+(++n)+' من '+total;
+        await load(frame,p,VIEWS[v][1],VIEWS[v][2]);
+        try{row.views[VIEWS[v][0]]=audit(frame.contentWindow,frame.contentDocument,p,VIEWS[v][0])}
+        catch(err){row.views[VIEWS[v][0]]={issues:['تعذّر فحص الصفحة: '+err.message],warns:[]}}
+      }
+      rows.push(row);
+    }
+    frame.remove(); render(rows); window.__qa=rows; runBtn.disabled=false;
+  }
+
+  function render(rows){
+    var fails=0,warns=0,clean=0,pagesBad=0;
+    var h='<h2>النتيجة لكل صفحة</h2><div class="tbl"><table><thead><tr><th>الصفحة</th><th>ديسكتوب</th><th>جوال</th><th>التفاصيل</th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      if(!r.exists){h+='<tr><td><code>'+esc(r.page)+'</code></td><td class="bad" colspan="3"><span class="dot bad"></span>الصفحة غير موجودة</td></tr>';fails++;pagesBad++;return}
+      var d=r.views.desktop,m=r.views.mobile, pi=d.issues.length+m.issues.length, pw=d.warns.length+m.warns.length;
+      fails+=pi;warns+=pw; if(pi)pagesBad++; else if(!pw)clean++;
+      var cell=function(x){var c=cls(x.issues.length,x.warns.length);return '<td class="n '+c+'"><span class="dot '+c+'"></span>'+(x.issues.length?x.issues.length+' خطأ':x.warns.length?x.warns.length+' ملاحظة':'سليمة')+'</td>'};
+      var li=function(x,tag){return x.issues.map(function(s){return '<li><b style="color:var(--bad)">خطأ</b> ('+tag+'): '+esc(s)+'</li>'}).join('')+x.warns.map(function(s){return '<li><b style="color:var(--warn)">ملاحظة</b> ('+tag+'): '+esc(s)+'</li>'}).join('')};
+      var det=li(d,'ديسكتوب')+li(m,'جوال');
+      h+='<tr><td><code>'+esc(r.page)+'</code></td>'+cell(d)+cell(m)+'<td>'+(det?'<details><summary>'+(pi+pw)+' بند</summary><ul class="iss">'+det+'</ul></details>':'—')+'</td></tr>';
+    });
+    out.innerHTML=h+'</tbody></table></div>';
+    sumEl.innerHTML='<div><b>'+rows.length+'</b><span>صفحة مفحوصة × مقاسين</span></div><div><b style="color:var(--ok)">'+clean+'</b><span>صفحة سليمة تمامًا</span></div><div><b style="color:var(--bad)">'+fails+'</b><span>خطأ يجب إصلاحه</span></div><div><b style="color:var(--warn)">'+warns+'</b><span>ملاحظة للتحسين</span></div>';
+    var v=fails===0?(warns<=rows.length?['ok','الموقع يجتاز الفحص: لا أخطاء في أي صفحة.']:['warn','لا أخطاء، لكن الملاحظات كثيرة وتستحق جولة تحسين قبل الاعتماد.']):['bad','الموقع لا يجتاز الفحص بعد: '+pagesBad+' صفحة فيها أخطاء يجب إصلاحها قبل عرضه كموقع رسمي.'];
+    verdictEl.innerHTML='<div class="verdict '+v[0]+'"><span class="dot '+v[0]+'"></span>'+v[1]+'</div>';
+    statusEl.textContent='اكتمل الفحص.';
+  }
+  runBtn.addEventListener('click',run);
+  if(/[?&]auto=1/.test(location.search)) run();
+})();
+</script>
+</body>
+</html>

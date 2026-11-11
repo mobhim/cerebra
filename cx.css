@@ -1,0 +1,310 @@
+/* Cerebra unified layer. Loaded by every page; homepage-only rules are scoped to .cx-home or to elements only that page has. */
+:root{--cxm-ease:cubic-bezier(.16,1,.3,1)}
+.cxm-w{display:inline-block;white-space:nowrap}
+
+/* liquid glass (from the prompt) */
+.cxm-lg{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
+.cxm-lg::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+
+/* ---------- hero ---------- */
+.banner-cover.cxm-hero-on > :not(.cxh){display:none!important}
+.cxh{position:relative;width:100%;height:100vh;height:100dvh;min-height:620px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;direction:rtl;color:#fff}
+.cxh-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cxh-bg video{width:100%;height:100%;object-fit:cover;display:block}
+.cxh-bg::after{content:"";position:absolute;inset:auto 0 0 0;height:28%;background:linear-gradient(180deg,transparent,rgba(11,12,28,.9))}
+.cxh-in{position:relative;z-index:10;width:100%;max-width:64rem;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:34px}
+.cxh-pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:7px 16px 7px 8px;color:rgba(255,255,255,.85)!important;font-size:13px;text-decoration:none!important;transition:color .3s}
+.cxh-pill:hover{color:#fff!important}
+.cxh-pill b{font-weight:500;font-size:11px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff}
+.cxh-tag{margin:0;color:rgba(255,255,255,.8);font-size:13px;font-weight:500}
+.cxh h1{margin:0;font-weight:600;font-size:clamp(44px,7.4vw,100px);line-height:1.12;letter-spacing:-.01em;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.7) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.08em}
+.cxh-cta{min-height:52px;display:flex;justify-content:center;width:100%}
+.cxh-btn{padding:12px 40px;font:inherit;font-size:15px;font-weight:500;color:rgba(255,255,255,.9);background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:999px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);cursor:pointer;transition:border-color .3s,background .3s}
+.cxh-btn:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.02)}
+.cxh-form{display:flex;align-items:center;gap:8px;width:100%;max-width:340px;padding:6px 20px 6px 6px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.02);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:border-color .3s}
+.cxh-form:focus-within{border-color:rgba(255,255,255,.4)}
+.cxh-form input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:inherit;font-size:14px;font-weight:500;direction:ltr;text-align:right}
+.cxh-form input::placeholder{color:rgba(255,255,255,.45)}
+.cxh-form button{flex:none;width:38px;height:38px;border-radius:50%;border:0;background:#fff;color:#000;display:grid;place-items:center;cursor:pointer;transition:transform .2s}
+.cxh-form button:hover{transform:scale(1.06)}
+.cxh-form button svg{width:16px;height:16px}
+.cxh-pop{animation:cxhPop .2s ease-out both}
+@keyframes cxhPop{from{opacity:0;transform:scale(.95)}}
+.cxh-link{color:rgba(255,255,255,.8)!important;font-size:14px;font-weight:500;text-decoration:none!important;transition:color .3s;display:inline-flex;align-items:center;gap:8px}
+.cxh-link:hover{color:rgba(255,255,255,.4)!important}
+.cxh-link i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.25)}
+.cxh-link svg{width:10px;height:10px}
+.cxh .cxm-in{opacity:0}
+
+/* ---------- rolling-digit numbers ---------- */
+/* --lh is taller than the heading's own line-height so no glyph is clipped; --pull gives the extra height back to the layout */
+.cxm-odo{display:inline-flex;direction:ltr;unicode-bidi:isolate;align-items:flex-start;vertical-align:top;line-height:var(--lh);margin-block:var(--pull);font-variant-numeric:tabular-nums}
+.cxm-odo .reel{display:inline-block;height:var(--lh);overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent)}
+.cxm-odo .col{display:block;transform:translateY(0)}
+.cxm-odo .col span{display:block;height:var(--lh);line-height:var(--lh);text-align:center}
+.cxm-odo .ch{display:inline-block;height:var(--lh);line-height:var(--lh);white-space:pre}
+.cxm-odo .num{display:inline-flex;direction:ltr}
+.cxm-odo.rtl{direction:rtl}
+
+/* ---------- reduced motion: ambient loops stop, state changes stay ---------- */
+.cxm-reduced .cxh-reel .track{animation:none}
+
+
+
+/* ---------- glass dropdown windows ---------- */
+.service-dropdown-list .dropdown-items-wrapper,.service-dropdown-list .dropdown-links-wrapper{background:rgba(14,18,52,.32)!important;backdrop-filter:blur(18px) saturate(160%)!important;-webkit-backdrop-filter:blur(18px) saturate(160%)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.12),0 30px 60px -30px rgba(0,0,0,.6)!important;border:1px solid rgba(255,255,255,.1)!important}
+.service-dropdown-list .link-box-wrapper{background-color:rgba(255,255,255,.035)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);transition:background-color .3s,box-shadow .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.service-dropdown-list .link-box-wrapper:hover{background-color:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);transform:translateY(-3px)}
+
+/* ---------- Black Hat photos back in the hero ---------- */
+.cxh-reel{position:absolute;top:0;bottom:0;z-index:2;width:min(210px,15vw);overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);opacity:.75}
+.cxh-reel.l{left:4vw}.cxh-reel.r{right:4vw}
+.cxh-reel .track{display:flex;flex-direction:column;gap:16px;animation:cxhUp 30s linear infinite}
+.cxh-reel.r .track{animation-direction:reverse;animation-duration:34s}
+.cxh-reel img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+@keyframes cxhUp{to{transform:translateY(-50%)}}
+@media (max-width:900px){.cxh-reel{width:22vw;opacity:.35}.cxh-reel.l{left:-4vw}.cxh-reel.r{right:-4vw}}
+
+/* stat cards: their artwork is semi-transparent and was designed over the old solid page colour.
+   Put that colour back under each card so they read as five separate cards again, not tinted glass over the video. */
+.trust-card{background-color:#121622!important;border-color:rgba(255,255,255,.1)!important;box-shadow:0 18px 40px -22px rgba(0,0,0,.8)}
+
+/* ---------- platforms: each lottie clip is replaced by a small live panel of what the platform does ---------- */
+.cx-home .teaser-section .teaser-img-3{display:none!important}
+.cx-home .teaser-section .p-teaser-img-wrap-3,.cx-home .teaser-section .teaser-img-tablet-down{background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+.cxp{position:relative;width:100%;height:100%;direction:rtl;text-align:right}
+.cxp-scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:0;transform:translateY(10px);transition:opacity .22s ease-out,transform .3s var(--cxm-ease);pointer-events:none}
+.cxp-scene.on{opacity:1;transform:none}
+.cxp-card{border-radius:22px;padding:18px;background:#191e31;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 28px 50px -28px rgba(0,0,0,.75)}
+.cxp-top{display:flex;align-items:center;gap:14px}
+.cxp-ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.07);color:rgba(255,255,255,.78);transition:background .25s,color .25s}
+.cxp-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cxp-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cxp-tx b{font-weight:500;font-size:17px;line-height:1.35;color:#fff}
+.cxp-tx span{font-size:13.5px;line-height:1.4;color:rgba(214,218,255,.66)}
+.cxp-pill{flex:none;position:relative;font-size:13px;font-weight:500;line-height:1;padding:10px 14px;white-space:nowrap;border-radius:999px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.08);transition:background .25s,color .25s}
+.cxp-pill i{font-style:normal;display:block;transition:opacity .2s}
+.cxp-pill i + i{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
+.cxp-scene.fin .cxp-pill{background:#33c3f0;color:#04121c}
+.cxp-scene.fin .cxp-pill i{opacity:0}.cxp-scene.fin .cxp-pill i + i{opacity:1}
+.cxp-list{display:flex;flex-direction:column;gap:4px;padding:10px}
+.cxp-row{display:flex;align-items:center;gap:14px;padding:12px 10px;border-radius:14px;transition:background .25s}
+.cxp-row .cxp-ic{width:40px;height:40px;border-radius:12px}
+.cxp-row .cxp-ic svg{width:20px;height:20px}
+.cxp-row .cxp-tx b{font-size:15.5px;color:rgba(255,255,255,.7);transition:color .25s}
+.cxp-row .cxp-tx span{font-size:12.5px;letter-spacing:.04em;direction:ltr;text-align:right}
+.cxp-st{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.22);transition:background .2s,box-shadow .2s}
+.cxp-st svg{width:12px;height:12px;fill:none;stroke:#04121c;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transform:scale(.4);opacity:0;transition:transform .25s var(--cxm-ease),opacity .15s}
+.cxp-row.done{background:rgba(255,255,255,.05)}
+.cxp-row.done .cxp-ic{background:rgba(51,195,240,.16);color:#7fdcf7}
+.cxp-row.done .cxp-tx b{color:#fff}
+.cxp-row.done .cxp-st{background:#33c3f0;box-shadow:none}
+.cxp-row.done .cxp-st svg{transform:none;opacity:1}
+/* tablet and phone: the sticky stage is gone, so each platform carries its own panel, already complete */
+.teaser-img-tablet-down .cxp{height:auto;margin-bottom:22px}
+.teaser-img-tablet-down .cxp-scene{position:relative;opacity:1;transform:none}
+
+/* ---------- hero: Cerebra's own gradient video (the one the live site already uses), under the new copy ---------- */
+.cxh{background:#1c1b5c}
+.cxh-bg::after{height:34%;background:linear-gradient(180deg,rgba(18,22,34,0),#121622)}
+.cxh-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(80% 70% at 50% 44%,rgba(14,14,52,.42) 0%,rgba(14,14,52,.2) 55%,rgba(14,14,52,0) 100%)}
+.cxh-pill{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
+.cxh-pill::before{display:none}
+.cxh .cxh-btn{background:#fff;color:#2f2f33;border-color:transparent;font-weight:500;transition:background .15s cubic-bezier(.2,0,0,1)}
+.cxh .cxh-btn:hover{background:rgba(255,255,255,.85);border-color:transparent}
+.cxh-form{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.16)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important}
+.cxh h1.cxh-split{background:none;-webkit-text-fill-color:initial;color:#fff}
+.cxh h1 .fw{display:inline-block;will-change:transform,opacity;padding-bottom:.08em;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.7) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+@media (max-width:600px){.cxh-in{gap:26px}.cxh-pill{font-size:12px}
+  /* on a phone the photo reels sit under the text column; keep them to the top and bottom bands only */
+  .cxh-reel{opacity:.5;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 9%,#000 20%,transparent 27%,transparent 68%,#000 78%,#000 90%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 9%,#000 20%,transparent 27%,transparent 68%,#000 78%,#000 90%,transparent 100%)}}
+
+
+/* ============ official model: hero copy, proof, booking ============ */
+:root{--cx-ink:#191e31;--cx-line:rgba(255,255,255,.1);--cx-text:rgb(190,201,214);--cx-cyan:#33c3f0}
+::selection{background:rgba(51,195,240,.35);color:#fff}
+html{scrollbar-color:rgba(255,255,255,.22) #121622}
+
+/* hero */
+.cxh{min-height:720px}
+.cxh-in{gap:26px;max-width:66rem}
+.cxh h1{font-size:clamp(38px,5.6vw,80px);line-height:1.2;max-width:11.5em;text-wrap:balance}
+.cxh-sub{margin:0;max-width:43rem;font-size:clamp(15px,1.25vw,18px);line-height:1.85;color:rgba(232,236,255,.84);text-wrap:pretty}
+.cxh-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 26px}
+.cxh .cxh-btn{display:inline-flex;align-items:center;text-decoration:none!important;padding:14px 36px;color:#14162e!important}
+.cxh .cxh-btn:focus-visible,.cxh-link:focus-visible,.cxh-pill:focus-visible,.cxb:focus-visible,.cxd-again:focus-visible{outline:2px solid var(--cx-cyan);outline-offset:3px}
+.cxh-facts{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px}
+.cxh-facts li{font-size:13px;line-height:1;padding:9px 14px;border-radius:999px;color:rgba(255,255,255,.86);background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+
+/* shared: section shell + button */
+.cxn{position:relative;direction:rtl;text-align:right;padding:0 20px 110px}
+.cxn-demo{padding-top:110px}
+.cxn-in{max-width:1200px;margin:0 auto}
+.cxn .section-title{margin:0;font-size:clamp(28px,3.1vw,42px);line-height:1.3}
+.cxn .text-base{margin:0;max-width:34rem;line-height:1.85;color:var(--cx-text)}
+.cxb{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 30px;border:0;border-radius:999px;background:#fff;color:#14162e!important;font:inherit;font-size:15px;font-weight:500;text-decoration:none!important;cursor:pointer;transition:background .15s ease-out,transform .15s ease-out}
+.cxb:hover{background:rgba(255,255,255,.86)}
+.cxb:active{transform:scale(.98)}
+
+/* case study + frameworks */
+.cxc-card,.cxd-card{border-radius:32px;background:var(--cx-ink);border:1px solid var(--cx-line);box-shadow:0 30px 60px -32px rgba(0,0,0,.85)}
+.cxc-card{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);align-items:center;gap:40px 56px;padding:56px}
+.cxc-num{display:flex;flex-direction:column;gap:14px}
+.cxc-fig{display:block;font-weight:600;font-size:clamp(72px,8vw,96px);line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+.cxc-num > span{font-size:18px;line-height:1.6;color:#dfe3ff}
+.cxc-body{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.cxc-std{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08)}
+.cxc-std p{margin:0;font-size:14px;color:var(--cx-text)}
+.cxc-std ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.cxc-std li{display:flex;flex-direction:column;gap:3px;padding:11px 16px;border-radius:14px;background:rgba(255,255,255,.045)}
+.cxc-std b{font-weight:600;font-size:15px;letter-spacing:.02em;color:#fff;direction:ltr;text-align:right}
+.cxc-std li span{font-size:12.5px;color:var(--cx-text)}
+
+/* demo booking */
+.cxd-card{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;padding:56px;align-items:start}
+.cxd-copy{display:flex;flex-direction:column;gap:20px}
+.cxd-pts{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.cxd-pts li{position:relative;padding-inline-start:26px;font-size:15px;line-height:1.7;color:#e6e9ff}
+.cxd-pts li::before{content:"";position:absolute;inset-inline-start:2px;top:.62em;width:11px;height:6px;border-left:2px solid var(--cx-cyan);border-bottom:2px solid var(--cx-cyan);transform:rotate(-45deg)}
+.cxd-form{display:flex;flex-direction:column;gap:18px}
+.cxd-form[hidden],.cxd-done[hidden]{display:none}
+.cxd-form fieldset{border:0;margin:0;padding:0;min-width:0}
+.cxd-form legend,.cxd-f > span{display:block;padding:0;margin:0 0 9px;font-size:13.5px;font-weight:500;color:#e6e9ff}
+.cxd-chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cxd-chip{position:relative;cursor:pointer;margin:0}
+.cxd-chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.cxd-chip span{display:flex;flex-direction:column;gap:3px;padding:12px 16px;border-radius:14px;font-size:12.5px;color:var(--cx-text);background:rgba(255,255,255,.045);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);transition:background .15s,box-shadow .15s,color .15s}
+.cxd-chip b{font-weight:500;font-size:15px;color:#fff}
+.cxd-chip:hover span{background:rgba(255,255,255,.08)}
+.cxd-chip input:checked + span{background:rgba(51,195,240,.14);box-shadow:inset 0 0 0 1.5px var(--cx-cyan);color:#d7f3fd}
+.cxd-chip input:focus-visible + span{outline:2px solid var(--cx-cyan);outline-offset:3px}
+.cxd-f{display:block;margin:0}
+.cxd-f input{display:block;width:100%;height:50px;padding:0 16px;border-radius:13px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;font:inherit;font-size:15px;caret-color:var(--cx-cyan);transition:border-color .15s,background .15s}
+.cxd-f input::placeholder{color:rgba(255,255,255,.55)}
+.cxd-f input[dir=ltr]{text-align:right}
+.cxd-f input:focus{outline:0;border-color:var(--cx-cyan);background:rgba(255,255,255,.08)}
+.cxd-f em{display:none;margin-top:7px;font-style:normal;font-size:12.5px;color:#ffb9ad}
+.cxd-f.bad input{border-color:#ff8a78}
+.cxd-f.bad em{display:block}
+.cxd-form .cxb{align-self:flex-start;margin-top:4px;padding-inline:38px}
+.cxd-done{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:8px 0;animation:cxdIn .32s var(--cxm-ease) both}
+.cxd-done:focus{outline:0}
+.cxd-done i{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--cx-cyan)}
+.cxd-done svg{width:26px;height:26px;fill:none;stroke:#04121c;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.cxd-done h3{margin:6px 0 0;font-size:24px;font-weight:600;line-height:1.4;color:#fff}
+.cxd-done small{font-size:12.5px;color:var(--cx-text);padding:7px 12px;border-radius:9px;background:rgba(255,255,255,.05)}
+.cxd-again{padding:0;border:0;background:none;color:#bfeafb;font:inherit;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:5px}
+@keyframes cxdIn{from{opacity:0;transform:translateY(8px)}}
+.cxm-reduced .cxd-done{animation:none}
+
+/* footer: the two policy links were touching */
+.section-footer .inner-container.is-footer{display:flex;flex-wrap:wrap;gap:8px 22px}
+
+@media (max-width:900px){
+  .cxc-card,.cxd-card{grid-template-columns:minmax(0,1fr);gap:32px;padding:32px 24px;border-radius:24px}
+  .cxn{padding:0 16px 72px}.cxn-demo{padding-top:72px}
+}
+@media (max-width:600px){
+  .cxh{min-height:760px}.cxh-in{gap:22px}
+  .cxh-facts li{font-size:12px;padding:8px 12px}
+  /* the hero copy is taller now: photo reels keep to the top band and the very bottom, clear of the text */
+  .cxh-reel{-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 8%,#000 15%,transparent 20%,transparent 86%,#000 93%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 8%,#000 15%,transparent 20%,transparent 86%,#000 93%,transparent 100%)}
+  .cxc-num > span{font-size:16px}
+  .cxd-form .cxb{align-self:stretch}
+}
+
+/* ---------- site-wide polish (each rule answers a finding from qa.html) ---------- */
+.page-wrapper{overflow-x:clip}
+.cxh-pill b{font-size:12px}
+/* embedded web forms carried their own typeface; one family for the whole site */
+.main-wrapper label,.main-wrapper [class^="ws-"],.main-wrapper [class*=" ws-"],.main-wrapper input,.main-wrapper textarea,.main-wrapper select,.main-wrapper button{font-family:"IBM Plex Sans Arabic",sans-serif!important}
+@media (max-width:767px){
+  /* nothing on a phone goes below 12px */
+  .body-extra-sm{font-size:12px!important}
+  .body-md.tab{font-size:14px!important}
+  .body-sm.tab,._18-px.tab{font-size:12px!important}
+  .p-name,.body-text.medoum,.review-des,.rating-des{font-size:12px!important;line-height:1.5!important}
+}
+@media (max-width:767px){.rating-buttons-wrap .button-arrow div{font-size:12px!important}}
+@media (max-width:767px){.testi-authr-info .body-md{font-size:12px!important}}
+/* the FAQ block was authored left-to-right; its Arabic text reads right-to-left */
+.cb-faq-section{direction:rtl;text-align:right}
+
+/* ---------- inner pages built on the shared layer (careers, support) ---------- */
+.cxi{direction:rtl;text-align:right;padding:190px 20px 90px;background:radial-gradient(70% 90% at 80% 0%,rgba(72,66,190,.38),rgba(18,22,34,0) 70%)}
+.cxi-in{max-width:1200px;margin:0 auto}
+.cxi h1{margin:0 0 20px;font-weight:600;font-size:clamp(34px,4.8vw,62px);line-height:1.25;color:#fff;text-wrap:balance}
+.cxi-lead{margin:0 0 30px;max-width:42rem;font-size:clamp(16px,1.3vw,18px);line-height:1.9;color:var(--cx-text)}
+.cxi-acts{display:flex;flex-wrap:wrap;gap:12px}
+.cxb.ghost{background:transparent;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.cxb.ghost:hover{background:rgba(255,255,255,.08)}
+.cxn .cxi-note{margin:14px 0 28px}
+.cxg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.cxg a,.cxj a{background:var(--cx-ink);border:1px solid var(--cx-line);border-radius:20px;color:#fff!important;text-decoration:none!important;transition:border-color .15s ease-out,transform .2s var(--cxm-ease)}
+.cxg a{display:flex;flex-direction:column;gap:6px;padding:22px 24px}
+.cxg a:hover,.cxj a:hover{border-color:rgba(255,255,255,.32);transform:translateY(-2px)}
+.cxg a:focus-visible,.cxj a:focus-visible{outline:2px solid var(--cx-cyan);outline-offset:3px}
+.cxg b{font-weight:500;font-size:18px;direction:ltr;text-align:right}
+.cxg span{font-size:14px;line-height:1.6;color:var(--cx-text)}
+.cxj{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.cxj a{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:20px 32px;padding:24px 28px}
+.cxj-main{display:flex;flex-direction:column;gap:6px}
+.cxj-main b{font-weight:500;font-size:20px}
+.cxj-main span{font-size:14.5px;line-height:1.7;color:var(--cx-text);max-width:38rem}
+.cxj-meta{display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:#dfe3ff;white-space:nowrap}
+.cxj i{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.07)}
+.cxj svg{width:18px;height:18px}
+.cxi-band{grid-template-columns:minmax(0,1fr) auto;padding:44px 48px}
+@media (max-width:900px){
+  .cxi{padding:140px 16px 64px}
+  .cxj a{grid-template-columns:minmax(0,1fr) auto;padding:20px}
+  .cxj-meta{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;gap:6px 16px;white-space:normal;order:3}
+  .cxi-band{grid-template-columns:minmax(0,1fr);padding:28px 24px}
+  .cxi-acts .cxb{flex:1 1 auto}
+}
+/* flip counters: digits left-to-right, block still aligned to the right edge of its column */
+.counter-nums-block.cx-ltr{direction:ltr;justify-content:flex-end}
+.counter-nums-block.cx-ltr .counter-nums-char:first-child .counter-num.sm{margin-right:.25em}
+.counter-nums-block.cx-ltr .nums-overflow .counter-num{text-align:left}
+.counter-nums-items.cx-col{transform:translate3d(0,0,0)!important;transition:transform .9s var(--cxm-ease) var(--d,0ms)}
+.counter-nums-block.cx-in .counter-nums-items.cx-col{transform:translate3d(0,var(--to),0)!important}
+.cxm-reduced .counter-nums-items.cx-col{transition:none}
+
+/* ---------- one form style for the whole site ----------
+   Every lead form (footer contact, demo request, event booking, newsletter) now looks like the booking form:
+   dark surface, the same fields, the same white pill button. They were a white card in some places and a
+   translucent one in others. */
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm){direction:rtl;text-align:right;background:var(--cx-ink)!important;border:1px solid var(--cx-line)!important;border-radius:24px!important;box-shadow:0 30px 60px -32px rgba(0,0,0,.85)!important;padding:36px!important;color:#fff!important}
+.hero-right-content:has(.crmWebToEntityForm){background:transparent!important;padding:0!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-title{margin:0 0 22px!important;color:#fff!important;font-size:24px!important;font-weight:600!important;line-height:1.4!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-field{margin:0 0 16px!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) label{display:block;margin:0 0 9px!important;color:#e6e9ff!important;font-size:13.5px!important;font-weight:500!important;line-height:1.5!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) input:not([type=hidden]):not([type=checkbox]):not([type=radio]),html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) textarea,html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) select{width:100%!important;height:50px!important;padding:0 16px!important;border-radius:13px!important;border:1px solid rgba(255,255,255,.16)!important;background:rgba(255,255,255,.05)!important;color:#fff!important;font-size:15px!important;box-shadow:none!important;caret-color:var(--cx-cyan);transition:border-color .15s,background .15s}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) textarea{height:auto!important;min-height:124px!important;padding:14px 16px!important;resize:vertical}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) select option{color:#14162e}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) input::placeholder,html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) textarea::placeholder{color:rgba(255,255,255,.55)!important;opacity:1}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) input:focus,html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) textarea:focus,html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) select:focus{outline:0!important;border-color:var(--cx-cyan)!important;background:rgba(255,255,255,.08)!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-actions{margin-top:20px!important;display:flex;justify-content:flex-start}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-submit{width:auto!important;min-width:0!important;padding:14px 38px!important;border:0!important;border-radius:999px!important;background:#fff!important;background-image:none!important;color:#14162e!important;font-size:15px!important;font-weight:500!important;line-height:1.4!important;box-shadow:none!important;cursor:pointer;transition:background .15s ease-out,transform .15s ease-out}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-submit:hover{background:rgba(255,255,255,.86)!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-submit:active{transform:scale(.98)}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-submit:focus-visible{outline:2px solid var(--cx-cyan)!important;outline-offset:3px}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-business-email-error,html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-captcha-error{margin-top:7px;color:#ffb9ad!important;font-size:12.5px!important}
+html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-captcha{margin:4px 0 0!important}
+@media (max-width:600px){html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm){padding:26px 20px!important;border-radius:20px!important}html :is(#ws-zoho-form,#ws-zoho-form-footer,#ws-zoho-form-cta,#ws-zoho-form-sso,.crmWebToEntityForm) .ws-submit{width:100%!important}}
+
+/* ---------- headings: the same line spacing everywhere, lines of balanced length ---------- */
+.main-wrapper h1{line-height:1.3!important;text-wrap:balance}
+.main-wrapper h2.section-title,.main-wrapper h1.section-title{line-height:1.35!important;text-wrap:balance}
+.cxh h1{line-height:1.3!important}
+/* gradient-filled words: room below the baseline so the dots of ي and the tails of ج ع are never clipped */
+.cxh h1 .fw{padding:.1em 0 .3em!important;margin:-.1em 0 -.3em}
+/* the contact-details card beside the footer form shares the form's surface */
+.section-footer .footer-links-block{background-color:var(--cx-ink)!important;background-image:none!important;border:1px solid var(--cx-line)!important;border-radius:24px!important;box-shadow:0 30px 60px -32px rgba(0,0,0,.85)}
+/* newsletter sign-up: the same field and button as every other form */
+html .ws-newsletter-form .ws-nl-input{height:50px!important;padding:0 18px!important;border-radius:13px!important;border:1px solid rgba(255,255,255,.16)!important;background:rgba(255,255,255,.05)!important;color:#fff!important;font-size:15px!important;box-shadow:none!important}
+html .ws-newsletter-form .ws-nl-input::placeholder{color:rgba(255,255,255,.55)!important;opacity:1}
+html .ws-newsletter-form .ws-nl-input:focus{outline:0!important;border-color:var(--cx-cyan)!important;background:rgba(255,255,255,.08)!important}
+html .ws-newsletter-form .ws-nl-btn{height:50px!important;padding:0 34px!important;border:0!important;border-radius:999px!important;background:#fff!important;background-image:none!important;color:#14162e!important;font-size:15px!important;font-weight:500!important;box-shadow:none!important}
+html .ws-newsletter-form .ws-nl-btn:hover{background:rgba(255,255,255,.86)!important}
