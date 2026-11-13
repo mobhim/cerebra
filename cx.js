@@ -8,6 +8,25 @@
   var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
   var noop=function(){};
 
+  /* ---------- light mode for weak devices ----------
+     Same pages and the same motion, minus the parts that cost the most to draw: animated blur, frosted glass,
+     looping photo reels, background video. It switches on from what the device says about itself (few cores,
+     little memory, data-saver, reduced motion), from ?lite=1, or by itself if the first second runs slowly. */
+  var root=document.documentElement, conn=navigator.connection||{};
+  var LITE=reduced||!!conn.saveData||(navigator.hardwareConcurrency>0&&navigator.hardwareConcurrency<=4)||(navigator.deviceMemory>0&&navigator.deviceMemory<=4)||/[?&]lite=1/.test(location.search);
+  var liteHooks=[];
+  function goLite(){ if(LITE&&root.classList.contains('cx-lite')) return; LITE=true; root.classList.add('cx-lite'); liteHooks.forEach(function(f){try{f()}catch(e){}}) }
+  if(LITE) root.classList.add('cx-lite');
+  else if(window.requestAnimationFrame){
+    /* frame-time probe: ~1.2s after load; if frames average slower than 30fps the page drops to light mode */
+    addEventListener('load',function(){setTimeout(function(){
+      if(document.hidden) return;
+      var n=0,t0=performance.now(),last=t0,worst=0;
+      (function f(now){ var d=now-last; last=now; if(n>2&&d>worst) worst=d; n++;
+        if(now-t0<1200) requestAnimationFrame(f); else { var avg=(now-t0)/n; if(n>8&&avg>33) goLite() } })(t0);
+    },600)});
+  }
+
   /* One file for every page. The parts that rebuild the homepage only run there (the page sets window.CX_HOME). */
   var HOME=!!window.CX_HOME; if(HOME) document.documentElement.classList.add('cx-home');
 
@@ -19,7 +38,7 @@
     var hero=$('.cxh',cover);
     /* the site's own hero video moves in behind the new hero (its poster paints first) */
     var ov=$('.section-banner video',cover), hb=$('.cxh-bg',hero);
-    if(ov&&hb){hb.appendChild(ov);ov.muted=true;if(reduced)ov.pause();else ov.play().catch(noop)}
+    if(ov&&hb){hb.appendChild(ov);ov.muted=true}   /* playback is handled with every other video, below */
     /* one quick entrance: the headline first (it is the message), the rest lands right behind it. Done in about 0.8s. */
     var ins=$$('.cxm-in',hero), h1=$('h1',hero);
     if(reduced){ins.forEach(function(el,i){el.animate([{opacity:0},{opacity:1}],{duration:300,delay:i*40,easing:'ease-out',fill:'forwards'})})}
@@ -27,7 +46,7 @@
       var blk=function(el,d){el.animate([{opacity:0,transform:'translateY(.6rem)'},{opacity:1,transform:'none'}],{duration:480,delay:d,easing:EASE,fill:'forwards'})};
       h1.style.opacity=1;h1.classList.add('cxh-split');
       var words=h1.textContent.trim().split(/\s+/); h1.innerHTML=words.map(function(w){return '<span class="fw">'+w+'</span>'}).join(' ');
-      $$('.fw',h1).forEach(function(w,i){w.animate([{opacity:0,transform:'translateY(.28em)',filter:'blur(8px)'},{opacity:1,transform:'none',filter:'blur(0)'}],{duration:560,delay:60+i*55,easing:EASE,fill:'backwards'})});
+      $$('.fw',h1).forEach(function(w,i){w.animate(LITE?[{opacity:0,transform:'translateY(.28em)'},{opacity:1,transform:'none'}]:[{opacity:0,transform:'translateY(.28em)',filter:'blur(8px)'},{opacity:1,transform:'none',filter:'blur(0)'}],{duration:560,delay:60+i*55,easing:EASE,fill:'backwards'})});
       ins.forEach(function(el,i){if(el!==h1)blk(el,el.classList.contains('cxh-pill')?260:200+i*60)});
     }
   }
@@ -135,6 +154,45 @@
     $$('.section-review .review-card').forEach(function(c){if(c.textContent.indexOf(k)>-1)c.remove()});
   });
 
+  /* ---------- reviews as a rating summary plus one swipeable row of cards ----------
+     The same reviews and the same Gartner rating, laid out the way phone app stores present them: the score
+     on one side, review cards in a row that snaps as you swipe or use the arrows. It replaces five screens of
+     scattered cards that had to be scrolled past. All text is read from the original cards. */
+  (function(){
+    var sec=HOME&&$('.section-review'); if(!sec) return;
+    var old=$('.section-main-wrapper.review',sec), rate=$('.rating-card-wrapper',sec); if(!old||!rate) return;
+    var txt=function(el){return el?el.textContent.replace(/\s+/g,' ').trim():''};
+    var esc=function(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+    var seen={}, cards=[];
+    $$('.review-card',sec).forEach(function(c){
+      var meta=$$('.p-name',c).map(txt), t=txt($('.body-text',c)); if(!t||seen[t]) return; seen[t]=1;
+      cards.push({star:($('img',c)||{}).src||'', product:(meta[0]||'').replace(/^المنتج:\s*/,''), date:(meta[1]||'').replace(/^تمت المراجعة في\s*/,''), title:t, body:txt($('.review-des',c))});
+    });
+    if(!cards.length) return;
+    var link=$('a',rate), head=$('h2',old), headWrap=head&&(head.closest('[class*="header"]')||head.parentNode);
+    var box=document.createElement('div');box.className='cxr';
+    box.innerHTML='<div class="cxr-head"></div><div class="cxr-body">'
+      +'<div class="cxr-sum"><img class="cxr-logo" alt="Gartner Peer Insights" loading="lazy" src="'+esc(($('.gratner-logo',rate)||{}).src||'')+'">'
+      +'<div class="cxr-score"><b>'+esc(txt($('.rate',rate)))+'</b><span>من 5</span></div>'
+      +'<img class="cxr-stars" alt="" loading="lazy" src="'+esc(($('img.star',rate)||{}).src||'')+'">'
+      +'<p><strong>'+esc(txt($('.title-32-px',rate)))+'</strong>'+esc(txt($('.rating-des',rate)))+'</p>'
+      +(link?'<a class="cxr-link" target="_blank" rel="noopener" href="'+esc(link.getAttribute('href'))+'">'+esc(txt(link))+'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>':'')
+      +'</div><div class="cxr-side"><div class="cxr-rail" role="list" tabindex="0" aria-label="مراجعات العملاء">'
+      +cards.map(function(c){return '<article class="cxr-card" role="listitem"><header><h3>'+esc(c.title)+'</h3><time>'+esc(c.date)+'</time></header>'
+        +'<div class="cxr-meta">'+(c.star?'<img alt="" loading="lazy" src="'+esc(c.star)+'">':'')+'<span>'+esc(c.product)+'</span></div><p>'+esc(c.body)+'</p></article>'}).join('')
+      +'</div><div class="cxr-nav"><button type="button" class="cxr-prev" aria-label="المراجعة السابقة"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+      +'<button type="button" class="cxr-next" aria-label="المراجعة التالية"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 5 7 10l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div>';
+    if(headWrap) $('.cxr-head',box).appendChild(headWrap);
+    old.parentNode.insertBefore(box,old); old.style.display='none'; sec.classList.add('cxr-on');
+    var rail=$('.cxr-rail',box), prev=$('.cxr-prev',box), next=$('.cxr-next',box);
+    var rtl=getComputedStyle(rail).direction==='rtl', step=function(){var c=$('.cxr-card',rail);return c?c.getBoundingClientRect().width+14:320};
+    var go=function(d){rail.scrollBy({left:d*(rtl?-1:1)*step(),behavior:reduced?'auto':'smooth'})};
+    prev.addEventListener('click',function(){go(-1)}); next.addEventListener('click',function(){go(1)});
+    var tick=0, sync=function(){tick=0;var x=Math.abs(rail.scrollLeft), max=rail.scrollWidth-rail.clientWidth; prev.disabled=x<4; next.disabled=x>max-4};
+    rail.addEventListener('scroll',function(){if(!tick)tick=requestAnimationFrame(sync)},{passive:true});
+    addEventListener('resize',sync); sync();
+  })();
+
   /* ---------- book a demo: one short flow on the page itself ----------
      Pick the platform, three fields, a clear confirmation. DEMO BUILD: nothing is transmitted yet;
      on the real site the submit handler posts to the CRM form that the contact form already uses. */
@@ -198,12 +256,14 @@
       var ws=e.target._ws; if(!ws) return;
       var step=Math.min(40,200/ws.length);
       ws.forEach(function(w,i){w.style.opacity='';
-        w.animate(reduced?[{opacity:0},{opacity:1}]:[{opacity:0,filter:'blur(6px)',transform:'translateY(.22em)'},{opacity:1,filter:'blur(0)',transform:'none'}],
+        /* opacity and position only: both run on the compositor, so a page full of headings never drops frames */
+        w.animate(reduced?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(.22em)'},{opacity:1,transform:'none'}],
           {duration:reduced?250:480,delay:reduced?0:i*step,easing:EASE,fill:'backwards'})});
     })},{rootMargin:'0px 0px -12% 0px',threshold:.2});
     heads.forEach(function(h){
       if(h.getBoundingClientRect().top<innerHeight*.88) return;   /* already visible: leave it alone */
-      h._ws=split(h); h._ws.forEach(function(w){w.style.opacity=0}); hio.observe(h);
+      h._ws=LITE?[h]:split(h);   /* light mode moves the heading as one piece instead of word by word */
+      h._ws.forEach(function(w){w.style.opacity=0}); hio.observe(h);
     });
   }
 
@@ -269,6 +329,51 @@
     if(reduced||!('IntersectionObserver' in window)) b.classList.add('cx-in');
     else new IntersectionObserver(function(es,o){if(es[0].isIntersecting){b.classList.add('cx-in');o.disconnect()}},{threshold:.6}).observe(b);
   });
+
+  /* ---------- nothing works while it is off screen ----------
+     Background videos, Lottie animations and the hero photo reels used to keep running wherever the visitor
+     had scrolled to. Each now runs only while it is actually visible, and not at all in light mode. */
+  (function(){
+    if(!('IntersectionObserver' in window)) return;
+    var vids=$$('.w-background-video video, .cxh-bg video');
+    var vio=new IntersectionObserver(function(es){es.forEach(function(e){
+      var v=e.target; v._on=e.isIntersecting;
+      if(v._on&&!LITE&&!document.hidden) v.play().catch(noop); else v.pause();
+    })},{rootMargin:'120px'});
+    vids.forEach(function(v){v.removeAttribute('autoplay');v.preload='none';vio.observe(v)});
+    document.addEventListener('visibilitychange',function(){vids.forEach(function(v){if(document.hidden||LITE||!v._on)v.pause();else v.play().catch(noop)})});
+    liteHooks.push(function(){vids.forEach(function(v){v.pause()})});
+
+    /* hero photo reels: the loop pauses with the hero out of view */
+    var hero=$('.cxh'); if(hero) new IntersectionObserver(function(es){hero.classList.toggle('cx-away',!es[0].isIntersecting)}).observe(hero);
+
+    /* Lottie: Webflow registers them after load */
+    function lotties(){
+      var api; try{api=window.Webflow&&Webflow.require('lottie').lottie}catch(e){} if(!api||!api.getRegisteredAnimations) return;
+      var lio=new IntersectionObserver(function(es){es.forEach(function(e){
+        var a=e.target._cxLottie; if(!a) return; a._cxOn=e.isIntersecting;
+        if(a._cxOn&&!LITE) a.play(); else a.pause();
+      })},{rootMargin:'100px'});
+      var list=api.getRegisteredAnimations().filter(function(a){return a.wrapper&&a.loop!==false&&!a.wrapper.closest('.navbar')});   /* menu icons are driven by clicks; leave them */
+      list.forEach(function(a){a.wrapper._cxLottie=a;lio.observe(a.wrapper)});
+      liteHooks.push(function(){list.forEach(function(a){a.pause()})});
+    }
+    if(document.readyState==='complete') setTimeout(lotties,400); else addEventListener('load',function(){setTimeout(lotties,400)});
+  })();
+
+  /* ---------- reCAPTCHA loads when a form is about to be used, not with the page (it is 841 KB of script) ---------- */
+  (function(){
+    var caps=$$('.g-recaptcha'); if(!caps.length) return;
+    var done=false;
+    function load(){ if(done) return; done=true;
+      var s=document.createElement('script');s.src='https://www.google.com/recaptcha/api.js';s.async=true;s.defer=true;document.head.appendChild(s) }
+    document.addEventListener('focusin',function(e){if(e.target.closest&&e.target.closest('form'))load()});
+    document.addEventListener('pointerdown',function(e){if(e.target.closest&&e.target.closest('form'))load()},{passive:true});
+    if('IntersectionObserver' in window){
+      var cio=new IntersectionObserver(function(es){if(es.some(function(e){return e.isIntersecting})){load();cio.disconnect()}},{rootMargin:'300px'});
+      caps.forEach(function(c){cio.observe(c)});
+    } else load();
+  })();
 
   document.documentElement.setAttribute('data-cx','1');   /* read by qa.html: the layer ran to the end */
   var odos=$$('.card-count-44-px, .cxc-fig').map(build).filter(Boolean);
